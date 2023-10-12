@@ -2,12 +2,18 @@
 defineProps<{
   modelValue: string,
   type: 'text' | 'password',
-  placeholder: string, 
+  placeholder?: string, 
 }>()
+
+defineEmits<{
+  (e: 'update:modelValue', value: string ): void
+}>()
+
+const getEventValue = (event: Event) => (event.target as HTMLInputElement).value
 </script>
 
 <template>
-  <input class="input" :value="modelValue" :type="type" :placeholder="placeholder" @input="$emit('update:modelValue', $event.target.value)" />
+  <input class="input" :value="modelValue" :type="type" :placeholder="placeholder" @input="$emit('update:modelValue', getEventValue($event))" />
 </template>
 
 <style lang="scss">
@@ -16,6 +22,8 @@ defineProps<{
 .input {
   padding: 11px 17px 8px;
 
+  font-size: 12px;
+  font-weight: 400;
   color: $text-primary;
 }
 </style>

@@ -37,6 +37,10 @@ defineProps<{
     &:hover {
       background-color: darken($button-bg-primary, 10%);
     }
+    
+    &:focus {
+      border: none;
+    }
 
     &:active {
       background-color: darken($button-bg-primary, 20%);
