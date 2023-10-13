@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import { Layout } from '@/app/layout'
+</script>
+
 <template>
-  <router-view/>
+    <Layout />
 </template>
 
 <style lang="scss">

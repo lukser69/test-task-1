@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Auth from '@/views/Auth.vue'
-import Orders from '@/views/Orders.vue'
-
+import { Auth, Orders, OrderCreate } from '@/views'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
+    redirect: '/auth',
+  },
+  {
+    path: '/auth',
     name: 'auth',
     component: Auth
   },
@@ -16,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/order-create',
     name: 'orderCreate',
-    component: () => import('@/views/OrderCreate.vue')
+    component: OrderCreate,
   }
 ]
 

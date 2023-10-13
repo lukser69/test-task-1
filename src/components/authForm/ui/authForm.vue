@@ -7,6 +7,7 @@ const username = ref<string>('')
 const password = ref<string>('')
 
 const getVerification = () => {
+  console.log(router)
   router.push('/orders')
 }
 </script>
