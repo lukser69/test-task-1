@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import { Layout } from '@/app/layout'
+</script>
+
 <template>
-  <router-view/>
+    <Layout />
 </template>
 
 <style lang="scss">
@@ -10,5 +14,8 @@
 body {
   padding: 0;
   margin: 0;
+
+  font-size: 16px;
+  font-weight: 400;
 }
 </style>

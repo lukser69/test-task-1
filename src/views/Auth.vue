@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AuthForm } from '@/components/authForm'
+import { AuthForm } from '@/components'
 </script>
 
 <template>
