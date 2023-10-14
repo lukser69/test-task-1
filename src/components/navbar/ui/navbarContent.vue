@@ -16,10 +16,5 @@ import { Button } from '@/components/ui';
   display: flex;
   align-items: center;
   gap: 28px;
-
-  & > .content__user {
-    font-size: 12px;
-    font-weight: 400;
-  }
 }
 </style>

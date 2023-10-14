@@ -16,8 +16,6 @@ defineProps<{
 .button {
   padding: 5px 34px 9px;
 
-  font-size: 12px;
-  font-weight: 400;
   outline: none;
   cursor: pointer;
 

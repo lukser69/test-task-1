@@ -23,8 +23,6 @@ const getEventValue = (event: Event) => (event.target as HTMLInputElement).value
   padding: 11px 17px 8px;
   border: none;
 
-  font-size: 12px;
-  font-weight: 400;
   color: $text-primary;
 
   &:focus {

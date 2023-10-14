@@ -25,10 +25,10 @@ const buttonsRoute: IButtonRoute[]  = [
   gap: 38px;
 
   .link {
-    font-size: 12px;
+    font-size: inherit;
     font-weight: 400;
     text-decoration: none;
-    color: $text-light;
+    color: $text-white;
   }
 }
 </style>
