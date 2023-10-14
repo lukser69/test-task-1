@@ -1,11 +1,12 @@
 <script setup lang="ts">
 defineProps<{
-  variant: 'primary' | 'secondary'
+  variant: 'primary' | 'secondary',
+  width?: string
 }>()
 </script>
 
 <template>
-  <button class="button" :class="`button--${variant}`" @click.prevent>
+  <button class="button" :class="`button--${variant}`" :style="{ width: width ? width : 'auto' }" @click.prevent>
     <slot />
   </button>
 </template>

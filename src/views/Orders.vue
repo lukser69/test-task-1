@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { Table } from '@/components'
+import { Modal, Button } from '@/components/ui'
+import { ref } from 'vue'
+
+const showConfirmDoneOrder = ref(false);
+const showConfirmDeleteOrder = ref(false);
 
 const headers = [
   {title: '№'},
@@ -9,6 +14,12 @@ const headers = [
   {title: 'Статус'},
   {title: 'Комментарий'},
 ];
+
+const modalActionsStyles = {
+  display: 'flex',
+  justifyContent: 'space-evenly',
+  marginTop: '68px',
+}
 
 const events = [
   {
@@ -44,11 +55,41 @@ const events = [
     <Table :headers="headers" :items="events">
       <template #actions="{ status }">
         <div class="table__actions">
-          <button v-if="status === 'Новый'">✔</button>
-          <button>✗</button>
+          <button v-if="status === 'Новый'" style="cursor: pointer;" @click="showConfirmDoneOrder = true">✔</button>
+          <button style="cursor: pointer;" @click="showConfirmDeleteOrder = true">✗</button>
         </div>
       </template>
     </Table>
+
+    <!-- Подтверждение готовности заказа -->
+    <Modal v-if="showConfirmDoneOrder" @onCloseModal="showConfirmDoneOrder = false">
+      <template #default>
+        <div class="modal">
+          <div class="modal__text">
+            Вы действительно хотите подтвердить готовность заказа?
+          </div>
+          <div class="modal__actions" :style="modalActionsStyles">
+            <Button variant="primary" width="120px">Ок</Button>
+            <Button variant="primary" width="120px" @click="showConfirmDoneOrder = false">Отмена</Button>
+          </div>
+        </div>
+      </template>
+    </Modal>
+
+    <!-- Подтверждение удаления заказа -->
+    <Modal v-if="showConfirmDeleteOrder" @onCloseModal="showConfirmDeleteOrder = false">
+      <template #default>
+        <div class="modal">
+          <div class="modal__text">
+            Вы действительно хотите удалить заказ?
+          </div>
+          <div class="modal__actions" :style="modalActionsStyles">
+            <Button variant="primary" width="120px">Ок</Button>
+            <Button variant="primary" width="120px" @click="showConfirmDeleteOrder = false">Отмена</Button>
+          </div>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
