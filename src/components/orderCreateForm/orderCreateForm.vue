@@ -1,14 +1,36 @@
 <script setup lang="ts">
 import { Input, Button } from '@/components/ui'
 import { ref } from 'vue'
-import router from '@/app/router';
+import { IOrder } from '@/models'
+import axios from 'axios'
+import { useAppStore } from '@/store/appStore'
 
-const username = ref<string>('')
-const address = ref<string>('')
-const comment = ref<string>('')
+const store = useAppStore()
 
-const getVerification = () => {
-  router.push('/orders')
+const order = ref<IOrder>({
+  id: undefined,
+  name: '',
+  address: '',
+  date: '',
+  status: 'Новый',
+  comment: '',
+})
+
+const createOrder = () => {
+  // Подставляем id заказу
+  const lastOrderId = (store.orders[store.orders.length - 1] as IOrder)?.id;
+  order.value.id = lastOrderId ? lastOrderId + 1 : 1;
+
+  axios
+    .post('http://localhost:3000/events', order.value)
+    .then(() => {
+      (store.orders as IOrder[]).push({...order.value})
+      order.value.id = undefined;
+      order.value.name = '';
+      order.value.address = '';
+      order.value.comment = '';
+    })
+    .catch((error) => console.log('Error', error.message))
 }
 </script>
 
@@ -19,13 +41,13 @@ const getVerification = () => {
     </div>
     
     <div class="order-create-form__inputs">
-      <Input v-model="username" type="text" placeholder="Введите ваше имя"/>
-      <Input v-model="address" type="password" placeholder="Введите ваш адрес"/>
-      <Input v-model="comment" type="password" placeholder="Комментарий"/>
+      <Input v-model="order.name" type="text" placeholder="Введите ваше имя"/>
+      <Input v-model="order.address" type="text" placeholder="Введите ваш адрес"/>
+      <Input v-model="order.comment" type="text" placeholder="Комментарий"/>
     </div>
 
     <div class="order-create-form__submit">
-      <Button variant="primary" @click="getVerification()">Добавить заказ</Button>
+      <Button variant="primary" @click="createOrder()">Добавить заказ</Button>
     </div>
   </form>
 </template>

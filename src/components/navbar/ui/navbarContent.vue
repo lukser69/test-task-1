@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui';
+import router from '@/app/router';
+
+const username = JSON.parse((localStorage.getItem('user') as string))?.name
+
+const logOut = () => {
+  localStorage.removeItem('user')
+  router.push('/auth')
+}
 </script>
 
 <template>
   <div class="content">
-    <span class="content__user">ИмяФамилия</span>
-    <Button variant="secondary">Выйти</Button>
+    <span class="content__user">{{ username }}</span>
+    <Button variant="secondary" @click="logOut()">Выйти</Button>
   </div>
 </template>
 
