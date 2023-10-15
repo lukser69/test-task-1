@@ -2,18 +2,28 @@
 defineProps<{
   modelValue: string,
   type: 'text' | 'password',
-  placeholder?: string, 
+  placeholder?: string,
+  error?: boolean,
 }>()
 
 defineEmits<{
   (e: 'update:modelValue', value: string ): void
+  (e: 'input'): void
+  (e: 'blur'): void
 }>()
 
-const getEventValue = (event: Event) => (event.target as HTMLInputElement).value
+const getEventValue = (event: Event) => (event.target as HTMLInputElement).value;
 </script>
 
 <template>
-  <input class="input" :value="modelValue" :type="type" :placeholder="placeholder" @input="$emit('update:modelValue', getEventValue($event))" />
+  <input
+    class="input"
+    :class="{ 'input-error': error}"
+    :value="modelValue" :type="type"
+    :placeholder="placeholder"
+    @input="$emit('update:modelValue', getEventValue($event)), $emit('input')"
+    @blur="$emit('blur')"
+  />
 </template>
 
 <style lang="scss">
@@ -28,5 +38,10 @@ const getEventValue = (event: Event) => (event.target as HTMLInputElement).value
   &:focus {
     outline: none;
   }
+}
+
+.input-error {
+  outline: 1px solid $error;
+  color: $error;
 }
 </style>

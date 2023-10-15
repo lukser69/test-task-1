@@ -5,9 +5,8 @@ interface IButtonRoute {
 }
 
 const buttonsRoute: IButtonRoute[]  = [
-  {name: 'Auth', path: '/'},
-  {name: 'Orders', path: '/orders'},
-  {name: 'Order create', path: '/order-create'},
+  {name: 'Все заказы', path: '/orders'},
+  {name: 'Добавить заказ', path: '/order-create'},
 ]
 </script>
 

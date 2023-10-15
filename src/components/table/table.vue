@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { IHeader, IItem } from './types';
+import { IHeader } from './types';
+import { IOrder } from '@/models';
 
 defineProps<{
   headers: IHeader[]
-  items: IItem[]
+  items: IOrder[]
 }>()
 </script>
 
@@ -37,7 +38,6 @@ defineProps<{
   border-collapse: collapse;
   
   text-align: center;
-  vertical-align: middle;
 
   th {
     padding: 9px 13px 7px;
