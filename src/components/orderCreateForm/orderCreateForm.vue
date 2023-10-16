@@ -2,52 +2,75 @@
 import { Input, Button } from '@/components/ui'
 import { ref } from 'vue'
 import { IOrder } from '@/models'
-import axios from 'axios'
 import { useAppStore } from '@/store/appStore'
 
 const store = useAppStore()
 
+const orderCreateForm = ref<HTMLFormElement>()
+
+const isErrors = ref({
+  name: false,
+  address: false,
+});
+
 const order = ref<IOrder>({
-  id: undefined,
   name: '',
   address: '',
-  date: '',
+  date: '14 января 2024',
   status: 'Новый',
   comment: '',
 })
 
-const createOrder = () => {
-  // Подставляем id заказу
-  const lastOrderId = (store.orders[store.orders.length - 1] as IOrder)?.id;
-  order.value.id = lastOrderId ? lastOrderId + 1 : 1;
+const createOrder = async (order: IOrder) => {
+  if (!order.name) {
+    isErrors.value.name = true;
 
-  axios
-    .post('http://localhost:3000/events', order.value)
-    .then(() => {
-      (store.orders as IOrder[]).push({...order.value})
-      order.value.id = undefined;
-      order.value.name = '';
-      order.value.address = '';
-      order.value.comment = '';
-    })
-    .catch((error) => console.log('Error', error.message))
+    // Проверка на адрес. Если он пустой, то закрашиваем и его.
+    if (!order.address) {
+      isErrors.value.address = true;
+    }
+    return
+  }
+
+  if (!order.address) {
+    isErrors.value.address = true;
+    return
+  }
+  
+  if (await store.createOrder(order)) {
+    (orderCreateForm.value as HTMLFormElement).reset()
+  }
 }
 </script>
 
 <template>
-  <form class="order-create-form">
+  <form class="order-create-form" ref="orderCreateForm">
     <div class="order-create-form__title">
       Добавить заказ
     </div>
     
     <div class="order-create-form__inputs">
-      <Input v-model="order.name" type="text" placeholder="Введите ваше имя"/>
-      <Input v-model="order.address" type="text" placeholder="Введите ваш адрес"/>
+      <Input
+        v-model="order.name"
+        type="text"
+        placeholder="Введите ваше имя"
+        :error="isErrors.name"
+        @input="isErrors.name = false"
+        @blur="!order.name ? isErrors.name = true : ''"
+      />
+      <Input
+        v-model="order.address"
+        type="text"
+        placeholder="Введите ваш адрес"
+        :error="isErrors.address"
+        @input="isErrors.address = false"
+        @blur="!order.address ? isErrors.address = true : ''"
+      />
       <Input v-model="order.comment" type="text" placeholder="Комментарий"/>
     </div>
 
     <div class="order-create-form__submit">
-      <Button variant="primary" @click="createOrder()">Добавить заказ</Button>
+      <Button variant="primary" @click="createOrder(order)">Добавить заказ</Button>
     </div>
   </form>
 </template>

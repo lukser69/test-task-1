@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Table } from '@/components'
+import { IHeader } from '@/components/table/types';
 import { Modal, Button } from '@/components/ui'
 import axios from 'axios';
 import { useAppStore } from '@/store/appStore';
@@ -16,13 +17,13 @@ const currentRole = JSON.parse((localStorage.getItem('user') as string))?.role;
 
 onMounted(() => store.getOrders())
 
-const headers = [
-  {title: '№'},
-  {title: 'Имя клиента'},
-  {title: 'Адрес', fontSize: 'small'},
-  {title: 'Дата заказа'},
-  {title: 'Статус'},
-  {title: 'Комментарий'},
+const headers: IHeader[] = [
+  {title: '№', value: 'id',},
+  {title: 'Имя клиента', value: 'name'},
+  {title: 'Адрес', value: 'address', fontSize: 'small', sortable: true},
+  {title: 'Дата заказа', value: 'date', sortable: true},
+  {title: 'Статус', value: 'status'},
+  {title: 'Комментарий', value: 'comment'},
 ];
 
 const modalActionsStyles = {
