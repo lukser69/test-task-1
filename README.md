@@ -1,4 +1,4 @@
-# test-task-1
+# test-task
 
 ## Project setup
 ```
@@ -7,12 +7,11 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+start frontend: npm run serve
+```
+This command starts a local development server. Most changes are reflected live without having to restart the server.
 
-json-server --watch db.json
 ```
-
-### Compiles and minifies for production
+start backend: json-server --watch db.json
 ```
-npm run build
-```
+This command starts a local backend server. Enter it in the new terminal.

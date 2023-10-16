@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { Auth, Orders, OrderCreate } from '@/views'
+import { Auth, Orders, OrderCreate } from '@/pages'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',

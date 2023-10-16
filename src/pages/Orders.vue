@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Table } from '@/components'
-import { IHeader } from '@/components/table/types';
+import { IHeader } from '@/components/ui/table/types';
 import { Modal, Button } from '@/components/ui'
 import axios from 'axios';
 import { useAppStore } from '@/store/appStore';
@@ -110,3 +110,4 @@ const deleteOrder = (): void => {
   }
 }
 </style>
+@/components/ui/table/types

@@ -9,28 +9,25 @@ const props = defineProps<{
 }>()
 
 const activeSortingHeaderValue = ref<string | null>(null)
-const sortingDirection = ref<'downToUp' | 'upToDown'>('downToUp')
+const sortingDirection = ref<'asc' | 'desc'>('asc')
 
-const sortedItems = computed({
-  get() {
-    // Если нет сортировки
-    if (!activeSortingHeaderValue.value) return props.items
+const sortedItems = computed(() => {
+  // Если нет сортировки
+  if (!activeSortingHeaderValue.value) return props.items
 
-    const copyItems = JSON.parse(JSON.stringify(props.items))
+  const copyItems = JSON.parse(JSON.stringify(props.items))
 
-    // Если сортировка от меньшего к большему
-    if (sortingDirection.value === 'downToUp') {
-      copyItems.sort((a: IOrder, b: IOrder) => sortingStrategy(a[activeSortingHeaderValue.value], b[activeSortingHeaderValue.value], activeSortingHeaderValue.value))
-      return copyItems
-    }
+  // Если сортировка от меньшего к большему
+  if (sortingDirection.value === 'asc') {
+    copyItems.sort((a: IOrder, b: IOrder) => sortingStrategy(a[activeSortingHeaderValue.value], b[activeSortingHeaderValue.value], activeSortingHeaderValue.value))
+    return copyItems
+  }
 
-    // Если сортировка от большего к меньшему
-    if (sortingDirection.value === 'upToDown') {
-      copyItems.sort((a: IOrder, b: IOrder) => sortingStrategy(b[activeSortingHeaderValue.value], a[activeSortingHeaderValue.value], activeSortingHeaderValue.value))
-      return copyItems
-    }
-  },
-  set() {}
+  // Если сортировка от большего к меньшему
+  if (sortingDirection.value === 'desc') {
+    copyItems.sort((a: IOrder, b: IOrder) => sortingStrategy(b[activeSortingHeaderValue.value], a[activeSortingHeaderValue.value], activeSortingHeaderValue.value))
+    return copyItems
+  }
 })
 
 const sortingStrategy = (a: string, b: string, sortingValue: string) => {
@@ -72,16 +69,16 @@ const setSorting = (headerValue: string) => {
   if (headerValue === activeSortingHeaderValue.value) {
     // Если сортировка от минимального до максимального значения,
     // то меняем направление 
-    if (sortingDirection.value === 'downToUp') {
-      sortingDirection.value = 'upToDown'
+    if (sortingDirection.value === 'asc') {
+      sortingDirection.value = 'desc'
       return
     }
 
     // Если сортировка от максимального до минимального значения,
     // то отключаем сортировку
-    if (sortingDirection.value === 'upToDown') {
+    if (sortingDirection.value === 'desc') {
       activeSortingHeaderValue.value = null
-      sortingDirection.value = 'downToUp'
+      sortingDirection.value = 'asc'
       return
     }
   }

@@ -1,4 +1,2 @@
-export * from './authForm'
-export * from './orderCreateForm'
-export * from './navbar'
-export * from './table'
+export * from './forms'
+export * from './ui'
