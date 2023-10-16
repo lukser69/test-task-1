@@ -2,13 +2,13 @@
 import { Input, Button } from '@/components/ui'
 import { ref } from 'vue'
 import { IOrder } from '@/models'
-import { useAppStore } from '@/store/appStore'
+import { useOrdersStore } from '@/store/ordersStore'
 
-const store = useAppStore()
+const ordersStore = useOrdersStore()
 
 const orderCreateForm = ref<HTMLFormElement>()
 
-const isErrors = ref({
+const errors = ref({
   name: false,
   address: false,
 });
@@ -21,23 +21,36 @@ const order = ref<IOrder>({
   comment: '',
 })
 
-const createOrder = async (order: IOrder) => {
-  if (!order.name) {
-    isErrors.value.name = true;
+const checkNameOnErrors = () => {
+  if (!order.value.name) {
+    errors.value.name = true
+    return false
+  }
+  return true
+}
 
-    // Проверка на адрес. Если он пустой, то закрашиваем и его.
-    if (!order.address) {
-      isErrors.value.address = true;
-    }
+const checkAddressOnErrors = () => {
+  if (!order.value.address) {
+    errors.value.address = true
+    return false
+  }
+  return true
+}
+
+const createOrder = async (order: IOrder) => {
+  // Проверка на имя
+  if (!checkNameOnErrors()) {
+    // Проверка на адрес, чтоб пометить ошибкой.
+    checkAddressOnErrors()
     return
   }
 
-  if (!order.address) {
-    isErrors.value.address = true;
+  // Проверка на адрес
+  if (!checkAddressOnErrors()) {
     return
   }
   
-  if (await store.createOrder(order)) {
+  if (await ordersStore.createOrder(order)) {
     (orderCreateForm.value as HTMLFormElement).reset()
   }
 }
@@ -54,17 +67,17 @@ const createOrder = async (order: IOrder) => {
         v-model="order.name"
         type="text"
         placeholder="Введите ваше имя"
-        :error="isErrors.name"
-        @input="isErrors.name = false"
-        @blur="!order.name ? isErrors.name = true : ''"
+        :error="errors.name"
+        @input="errors.name = false"
+        @blur="checkNameOnErrors()"
       />
       <Input
         v-model="order.address"
         type="text"
         placeholder="Введите ваш адрес"
-        :error="isErrors.address"
-        @input="isErrors.address = false"
-        @blur="!order.address ? isErrors.address = true : ''"
+        :error="errors.address"
+        @input="errors.address = false"
+        @blur="checkAddressOnErrors()"
       />
       <Input v-model="order.comment" type="text" placeholder="Комментарий"/>
     </div>

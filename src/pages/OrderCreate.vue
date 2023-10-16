@@ -3,7 +3,5 @@ import { OrderCreateForm } from '@/components'
 </script>
 
 <template>
-  <div>
-    <OrderCreateForm />
-  </div>
+  <OrderCreateForm />
 </template>

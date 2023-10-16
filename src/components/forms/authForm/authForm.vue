@@ -3,7 +3,9 @@ import { Input, Button, ErrorMessage } from '@/components/ui'
 import { ref } from 'vue'
 import { IUser } from '@/models'
 import router from '@/app/router';
-import axios from 'axios';
+import { useAuthStore } from '@/store/authStore';
+
+const authStore = useAuthStore()
 
 const user = ref<IUser>({
   name: '',
@@ -34,7 +36,7 @@ const checkValidationInputPassword = () => {
   }
 }
 
-const logIn = () => {
+const logIn = async () => {
   if (!user.value.name ||
     !user.value.password ||
     isErrorsUserName.value ||
@@ -44,15 +46,11 @@ const logIn = () => {
     isErrorsUserPassword.value = true;
     return
   }
-  axios
-    .get(`http://localhost:3000/users?user=${user.value.name}&password=${user.value.password}`)
-    .then((response) => {
-      const [user] = response.data
-      if (!user) isErrorsVerificationForm.value = true;
-      localStorage.setItem('user', JSON.stringify({name: user.name, role: user.role}))
-      router.push('/orders')
-    })
-    .catch((error) => console.log('Error', error.message))
+  if (await authStore.getUser(user.value.name, user.value.password)) {
+     router.push('/orders')
+  } else {
+    isErrorsVerificationForm.value = true
+  }
 }
 </script>
 

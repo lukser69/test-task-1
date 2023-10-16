@@ -95,6 +95,9 @@ const setSorting = (headerValue: string) => {
           @click="header.sortable ? setSorting(header.value) : ''"
         >
           {{ header.title }}
+          <span v-if="header.value === activeSortingHeaderValue">
+            {{ sortingDirection === 'asc' ? '🠗' : '🠕' }}
+          </span>
         </th>
       </tr>
     </thead>

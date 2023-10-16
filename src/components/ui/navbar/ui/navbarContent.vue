@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui';
 import router from '@/app/router';
-import { useAppStore } from '@/store/appStore';
+import { useAuthStore } from '@/store/authStore';
+import { useOrdersStore } from '@/store/ordersStore';
 
-const store = useAppStore()
+const authStore = useAuthStore()
+const ordersStore = useOrdersStore()
 
-const username = JSON.parse((localStorage.getItem('user') as string))?.name
+const userName = localStorage.getItem('userName')
 
 const logOut = () => {
-  localStorage.removeItem('user')
-  store.orders = []
+  authStore.userData = null;
+  localStorage.removeItem('userName')
+  ordersStore.orders = []
   router.push('/auth')
 }
 </script>
 
 <template>
   <div class="content">
-    <span class="content__user">{{ username }}</span>
+    <span class="content__user">{{ userName }}</span>
     <Button variant="secondary" @click="logOut()">Выйти</Button>
   </div>
 </template>

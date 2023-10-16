@@ -3,6 +3,11 @@ export interface IUser {
   password: string
 }
 
+export interface IUserData {
+  name: string
+  role: string
+}
+
 export interface IOrder {
   id?: number
   name: string

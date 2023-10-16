@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import { Table } from '@/components'
+import { Table } from '@/components/ui'
 import { IHeader } from '@/components/ui/table/types';
 import { Modal, Button } from '@/components/ui'
-import axios from 'axios';
-import { useAppStore } from '@/store/appStore';
+import { useOrdersStore } from '@/store/ordersStore';
 import { ref, onMounted } from 'vue'
 import { IOrder } from '@/models';
 
-const store = useAppStore()
+const ordersStore = useOrdersStore()
 
 const isShowConfirmDeleteOrder = ref(false);
 
-const currentOrder = ref<IOrder | null>(null);
+const selectedOrder = ref<IOrder | null>(null);
 
 const currentRole = JSON.parse((localStorage.getItem('user') as string))?.role;
 
-onMounted(() => store.getOrders())
+onMounted(() => ordersStore.getOrders())
 
 const headers: IHeader[] = [
   {title: '№', value: 'id',},
@@ -32,45 +31,29 @@ const modalActionsStyles = {
   marginTop: '68px',
 }
 
-const setStatusDoneOrder = (order: IOrder): void => {
+const setStatusDoneOrder = async (order: IOrder) => {
   const copyOrder = {...order}
   copyOrder.status = 'Выполнен'
-  axios
-    .put(`http://localhost:3000/events/${copyOrder.id}`, copyOrder)
-    .then((response) => {
-      const findOrder = store.orders.find((item) => (item as IOrder).id === (order as IOrder).id);
-      if (findOrder) {
-        (findOrder as IOrder).status = response.data.status
-      }
-    })
-    .catch((error) => console.log('Error', error.message))
+  ordersStore.setStatusDone(copyOrder)
 }
 
-const showConfirmDeleteOrder = (order: IOrder): void => {
-  currentOrder.value = order;
+const showConfirmDeleteOrder = (order: IOrder) => {
+  selectedOrder.value = order;
 
   isShowConfirmDeleteOrder.value = true;
 }
 
-const deleteOrder = (): void => {
-  axios
-    .delete(`http://localhost:3000/events/${(currentOrder.value as IOrder).id}`)
-    .then(() => {
-      const findIndexOrder = store.orders.findIndex((order) => (order as IOrder).id === (currentOrder.value as IOrder).id);
-      if (findIndexOrder) {
-        store.orders.splice(findIndexOrder, 1)
-      }
-
-      isShowConfirmDeleteOrder.value = false;
-    })
-    .catch((error) => console.log('Error', error.message))
+const deleteOrder = async() => {
+  if (await ordersStore.deleteOrder((selectedOrder.value as IOrder))) {
+    isShowConfirmDeleteOrder.value = false;
+  }
 }
 
 </script>
 
 <template>
   <div class="container">
-    <Table :headers="headers" :items="store.orders">
+    <Table :headers="headers" :items="ordersStore.orders">
       <template v-if="currentRole === 'ADMIN'" #actions="item">
         <div class="table__actions">
           <button v-if="item.status === 'Новый'" style="cursor: pointer;" @click="setStatusDoneOrder(item)">✔</button>
