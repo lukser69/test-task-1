@@ -48,10 +48,13 @@ const sortingStrategy = (a: string, b: string, sortingValue: string) => {
     }
 
     const [a_day, a_month, a_year] = a.split(' ')
-    a = Date.parse(`${a_year}-${months[a_month]}-${a_day}`).toString()
+    const c = Date.parse(`${a_year}-${months[a_month]}-${a_day}`)
     
     const [b_day, b_month, b_year] = b.split(' ')
-    b = Date.parse(`${b_year}-${months[b_month]}-${b_day}`).toString()
+    const d = Date.parse(`${b_year}-${months[b_month]}-${b_day}`)
+    if (c > d) return 1;
+    if (c < d) return -1;
+    return 0;
   }
   if (a > b) return 1;
   if (a < b) return -1;
