@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
         if (!user) return false
 
         this.userData = { name: user.name, role: user.role }
-        localStorage.setItem('userName', user.name)
+        localStorage.setItem('userData', JSON.stringify(this.userData))
 
         return true
       } catch (error) {

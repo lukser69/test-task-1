@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Navbar } from '@/components/ui'
+import { Navbar } from '@/components/uiKit'
 </script>
 
 <template>

@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { Table } from '@/components/ui'
 import { IHeader } from '@/components/ui/table/types';
-import { Modal, Button } from '@/components/ui'
+import { Modal, Button, Table } from '@/components/uiKit'
+import { useAuthStore } from '@/store/authStore';
 import { useOrdersStore } from '@/store/ordersStore';
 import { ref, onMounted } from 'vue'
 import { IOrder } from '@/models';
 
+const authStore = useAuthStore()
 const ordersStore = useOrdersStore()
 
 const isShowConfirmDeleteOrder = ref(false);
 
 const selectedOrder = ref<IOrder | null>(null);
 
-const currentRole = JSON.parse((localStorage.getItem('user') as string))?.role;
+const currentRole = JSON.parse((localStorage.getItem('userData') as string))?.role;
 
 onMounted(() => ordersStore.getOrders())
 
@@ -93,4 +94,4 @@ const deleteOrder = async() => {
   }
 }
 </style>
-@/components/ui/table/types
+@/components/ui/table/types@/components/uiKit/table/types

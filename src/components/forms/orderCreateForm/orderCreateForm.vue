@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Input, Button } from '@/components/ui'
+import { Input, Button } from '@/components/uiKit'
 import { ref } from 'vue'
 import { IOrder } from '@/models'
 import { useOrdersStore } from '@/store/ordersStore'

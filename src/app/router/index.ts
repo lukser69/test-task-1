@@ -34,7 +34,7 @@ const router = createRouter({
 // Если пользователь не авторизовался, то редиректить на auth
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const isAuthenticated = Boolean(localStorage.getItem('userName'));
+  const isAuthenticated = Boolean(localStorage.getItem('userData'));
   if (requiresAuth && !isAuthenticated) {
     next('/auth');
   } else {
@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
 // Если пользователь авторизовался, то редиректить c auth на orders
 router.beforeEach((to, from, next) => {
   const requiresNotAuth = to.matched.some(record => record.meta.requiresNotAuth);
-  const isAuthenticated = Boolean(localStorage.getItem('userName'));
+  const isAuthenticated = Boolean(localStorage.getItem('userData'));
   if (requiresNotAuth && isAuthenticated) {
     next('/orders');
   } else {

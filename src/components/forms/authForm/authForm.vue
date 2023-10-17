@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Input, Button, ErrorMessage } from '@/components/ui'
+import { Input, Button, ErrorMessage } from '@/components/uiKit'
 import { ref } from 'vue'
 import { IUser } from '@/models'
 import router from '@/app/router';

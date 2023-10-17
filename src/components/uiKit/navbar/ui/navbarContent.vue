@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui';
+import { Button } from '@/components/uiKit';
 import router from '@/app/router';
 import { useAuthStore } from '@/store/authStore';
 import { useOrdersStore } from '@/store/ordersStore';
+import { IUserData } from '@/models';
 
 const authStore = useAuthStore()
 const ordersStore = useOrdersStore()
 
-const userName = localStorage.getItem('userName')
+const userData: IUserData | null = JSON.parse((localStorage.getItem('userData') as string))
 
 const logOut = () => {
   authStore.userData = null;
-  localStorage.removeItem('userName')
+  localStorage.removeItem('userData')
   ordersStore.orders = []
   router.push('/auth')
 }
@@ -19,7 +20,7 @@ const logOut = () => {
 
 <template>
   <div class="content">
-    <span class="content__user">{{ userName }}</span>
+    <span class="content__user">{{ userData?.name }}</span>
     <Button variant="secondary" @click="logOut()">Выйти</Button>
   </div>
 </template>
