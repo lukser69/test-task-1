@@ -4,6 +4,7 @@ export interface IUser {
 }
 
 export interface IUserData {
+  user: string
   name: string
   role: string
 }

@@ -1,5 +1,15 @@
 <script setup lang="ts">
 import { Layout } from '@/app/layout'
+import { useAuthStore } from './store/authStore';
+
+const authStore = useAuthStore()
+
+const userData = JSON.parse((localStorage.getItem('userData') as string))
+
+// Если пользователь авторизован, то проверяем на обновление его данных
+if (userData) {
+  authStore.updateUserData(userData.user)
+}
 </script>
 
 <template>

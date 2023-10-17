@@ -94,4 +94,3 @@ const deleteOrder = async() => {
   }
 }
 </style>
-@/components/ui/table/types@/components/uiKit/table/types

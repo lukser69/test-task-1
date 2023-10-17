@@ -11,7 +11,6 @@ const ordersStore = useOrdersStore()
 const userData: IUserData | null = JSON.parse((localStorage.getItem('userData') as string))
 
 const logOut = () => {
-  authStore.userData = null;
   localStorage.removeItem('userData')
   ordersStore.orders = []
   router.push('/auth')

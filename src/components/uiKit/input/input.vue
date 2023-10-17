@@ -43,5 +43,9 @@ const getEventValue = (event: Event) => (event.target as HTMLInputElement).value
 .input-error {
   outline: 1px solid $error;
   color: $error;
+
+  &:focus {
+    outline: 1px solid $error;
+  }
 }
 </style>

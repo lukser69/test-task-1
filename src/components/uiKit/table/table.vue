@@ -30,23 +30,23 @@ const sortedItems = computed(() => {
   }
 })
 
+const months = {
+  'января': '01',
+  'февраля': '02',
+  'марта': '03',
+  'апреля': '04',
+  'майя': '05',
+  'июня': '06',
+  'июля': '07',
+  'августа': '08',
+  'сентября': '09',
+  'октября': '10',
+  'ноября': '11',
+  'декабря': '12',
+}
+
 const sortingStrategy = (a: string, b: string, sortingValue: string) => {
   if (sortingValue === 'date') {
-    const months = {
-      'января': '01',
-      'февраля': '02',
-      'марта': '03',
-      'апреля': '04',
-      'майя': '05',
-      'июня': '06',
-      'июля': '07',
-      'августа': '08',
-      'сентября': '09',
-      'октября': '10',
-      'ноября': '11',
-      'декабря': '12',
-    }
-
     const [a_day, a_month, a_year] = a.split(' ')
     const c = Date.parse(`${a_year}-${months[a_month]}-${a_day}`)
     
@@ -94,6 +94,7 @@ const setSorting = (headerValue: string) => {
       <tr>
         <th
           v-for="header in headers"
+          class="table__header"
           :style="header.sortable ? 'cursor: pointer;' : ''"
           @click="header.sortable ? setSorting(header.value) : ''"
         >
