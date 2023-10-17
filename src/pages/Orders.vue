@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IHeader } from '@/components/ui/table/types';
+import { IHeader } from '@/components/uiKit/table/types';
 import { Modal, Button, Table } from '@/components/uiKit'
 import { useAuthStore } from '@/store/authStore';
 import { useOrdersStore } from '@/store/ordersStore';
